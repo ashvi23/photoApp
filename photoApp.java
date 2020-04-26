@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -27,8 +28,12 @@ public class photoApp extends AppCompatActivity {
     private ListView listView;
    // private String[] albumNames;
     ArrayList<String> albumNames;
+    ArrayList<Album> albums;
     private String m_Text="";
     ArrayAdapter<String> adapter;
+    int pos;
+    String albumClicked;
+    Album albumLClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +43,19 @@ public class photoApp extends AppCompatActivity {
         //albumNames = getResources().get
         //albumNames = getResources().getStringArray(R.array.albums_array);
         albumNames = new ArrayList<String>();
-       // albumNames.add("Test");
+        //albumNames.add("Test");
         adapter = new ArrayAdapter<>(this, R.layout.route, albumNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                handleAlbumClick(position);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pos = position;
+                albumClicked = (String) listView.getItemAtPosition(pos); // get item last clicked --> change this to hte album Object
             }
         });
     }
     public void handleSearch(View view){
         Intent intent = new Intent(this, search_activity.class);
-        startActivity(intent);
-    }
-    public void handleAlbumClick(int position){
-        Intent intent = new Intent(this, album_activity.class);
         startActivity(intent);
     }
     public void addAlbum(View view){
@@ -80,6 +82,8 @@ public class photoApp extends AppCompatActivity {
                 else{
                     albumNames.add(m_Text);
                     adapter.notifyDataSetChanged();
+                    pos = -1;
+                    albumClicked = "";
                 }
                 /*
                 else add to list view
@@ -89,6 +93,8 @@ public class photoApp extends AppCompatActivity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pos = -1;
+                albumClicked = "";
                 dialog.cancel();
             }
         });
@@ -98,14 +104,18 @@ public class photoApp extends AppCompatActivity {
     public void editAlbum(View view){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
-        final int position = listView.getCheckedItemPosition();
-        final String selectedAlbum = adapter.getItem(position);
-
-        input.setHint("new name for album");
+        if(pos< 0 ){
+            Toast toast = Toast.makeText(getApplicationContext(),"No album selected",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        final String selectedAlbum = adapter.getItem(pos);
+        input.setHint("Enter new name for album '"+ albumClicked + "'");
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-// Set up the buttons
+        // Set up the buttons
         builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -115,23 +125,22 @@ public class photoApp extends AppCompatActivity {
                             .setMessage("An album with the title \"" + m_Text + "\" already exists. Please try a different title.")
                             .setPositiveButton("OK", null)
                             .show();
-
                     return;
                 }
                 else{
-                    albumNames.set(position, m_Text);
-                    //adapter.getItem(listView.getCheckedItemPosition()).;
-                    //albumNames.add(m_Text);
+                    albumNames.set(pos, m_Text);
                     adapter.notifyDataSetChanged();
+
                 }
-                /*
-                else add to list view
-                 */
+                pos = -1;
+                albumClicked = "";
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pos = -1;
+                albumClicked = "";
                 dialog.cancel();
             }
         });
@@ -141,6 +150,36 @@ public class photoApp extends AppCompatActivity {
     }
     public void deleteAlbum(View view){
         //get position, delete album from adapter
+        if(pos<0){
+            Toast toast = Toast.makeText(getApplicationContext(),"No album selected",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        albumNames.remove(albumClicked);
+        adapter.notifyDataSetChanged();
+        String deleted = "Deleted " + albumClicked;
+        Toast toast = Toast.makeText(getApplicationContext(),deleted,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        pos = -1;
+        albumClicked = "";
+
+    }
+    public void openAlbum(View view){
+        if(pos < 0){
+            Toast toast = Toast.makeText(getApplicationContext(),"No album selected",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            pos = -1;
+            albumClicked = "";
+            return;
+        }
+        // make it open the album at position
+        Intent intent = new Intent(this, album_activity.class);
+        startActivity(intent);
+        pos = -1;
+        albumClicked = "";
     }
 
 /*

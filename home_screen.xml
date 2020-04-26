@@ -11,7 +11,7 @@
         android:layout_width="166dp"
         android:layout_height="52dp"
         android:layout_marginTop="119dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="16dp"
         android:text="Albums"
         android:textAlignment="center"
         android:textSize="36sp"
@@ -22,10 +22,9 @@
 
     <ListView
         android:id="@+id/home_screen"
-        android:layout_width="351dp"
-        android:layout_height="361dp"
+        android:layout_width="367dp"
+        android:layout_height="461dp"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/addAlbum"
@@ -33,31 +32,31 @@
         app:layout_constraintHorizontal_bias="0.583"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.368" />
+        app:layout_constraintVertical_bias="0.368" >
+
+    </ListView>
 
     <Button
         android:id="@+id/addAlbum"
         android:layout_width="80dp"
         android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="16dp"
         android:onClick="addAlbum"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editAlbum"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/editAlbum" />
 
     <Button
         android:id="@+id/editAlbum"
-        android:layout_width="80dp"
+        android:layout_width="85dp"
         android:layout_height="45dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginBottom="16dp"
         android:onClick="editAlbum"
-        android:text="Edit"
+        android:text="Rename"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addAlbum" />
+        app:layout_constraintEnd_toStartOf="@+id/deleteAlbum" />
 
     <Button
         android:id="@+id/searchButton"
@@ -66,7 +65,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="85dp"
+        android:layout_marginBottom="22dp"
         android:onClick="handleSearch"
         android:text="Search"
         app:layout_constraintBottom_toTopOf="@+id/home_screen"
@@ -80,14 +79,24 @@
         android:id="@+id/deleteAlbum"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginStart="121dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
         android:onClick="deleteAlbum"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/editAlbum" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/openAlbum"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="openAlbum"
+        android:text="Open"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addAlbum"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
