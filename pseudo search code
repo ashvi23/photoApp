@@ -1,0 +1,59 @@
+
+Public boolean isValidTagType(String input){
+	input= input.strip();
+	if(input.equalsIgnoreCase(“person”) ||input.equalsIgnoreCase(“location”)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+public boolean isValidTagValue(Photo photo, String key, String value){
+	Tag newTag = new Tag (key, value);
+	ArrayList<Tag> tags = photo.tags;
+	for(int i =0; I<tags.size(); I++){
+		if (tags.getItem(i).equals(newTag)) {
+			return false; 
+		}
+	}
+	return true;
+}
+
+Public search(){
+Boolean and, or, none;
+if(none){
+	if(tag1){
+		addOrPassPhoto()
+	}
+	else if(tag2){
+	}
+}
+}
+
+addOrPassPhoto(){
+	for(int i=0; i<currPhoto.getTagPairs().size();i++) {
+                Tag currTag=currPhoto.getTagPairs().get(i);
+                String split[] = pair.split("=");
+		if(and){
+			if(compareSearchTag(currTag, searchTag) == true && compareSearchTag())}
+		if(or){}
+		if(none){}
+ 	}
+}
+Public boolean compareSearchTags(Tag currTag, Tag searchTag){
+	 if(currTag Key == tagKey) {
+		if(currValue.length()>= toAddValue.length() && currValue.containsIgnoreCase(toAddValue)){
+			add
+			return true;
+		}
+		if(currValue.length()<toAddValue.length()){
+			pass;
+			return false;
+		}
+        }
+	else{
+		return false; 
+	}
+
+}
