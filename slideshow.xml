@@ -11,30 +11,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="83dp"
-        android:layout_marginTop="564dp"
+        android:layout_marginTop="544dp"
         android:layout_marginEnd="54dp"
         android:layout_marginBottom="16dp"
+        android:onClick="next"
         android:text="N"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/prev"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="71dp"
-        android:layout_marginTop="498dp"
         android:layout_marginEnd="83dp"
         android:layout_marginBottom="16dp"
+        android:onClick="prev"
         android:text="L"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back" />
+        app:layout_constraintTop_toBottomOf="@+id/back"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/back"
@@ -43,8 +46,22 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="275dp"
+        android:onClick="back"
         android:text="back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/slideshowImg"
+        android:layout_width="210dp"
+        android:layout_height="282dp"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="119dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>

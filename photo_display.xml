@@ -13,40 +13,40 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="151dp"
-        android:layout_marginBottom="379dp"
+        android:onClick="back"
         android:text="Back"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toStartOf="@+id/slideshow"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/slideshow"
         android:layout_width="120dp"
         android:layout_height="46dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="75dp"
+        android:onClick="slideshow"
         android:text="slideshow"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/taglabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="406dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="56dp"
         android:text="Tags:"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-        app:layout_constraintEnd_toStartOf="@+id/textInputLayout2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back" />
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toStartOf="@+id/tags"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/addTag"
@@ -56,7 +56,8 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="240dp"
         android:layout_marginBottom="16dp"
-        android:text="add"
+        android:onClick="addTag"
+        android:text="add tag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +71,8 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="58dp"
         android:layout_marginBottom="16dp"
-        android:text="remove"
+        android:onClick="deleteTag"
+        android:text="remove tag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addTag"
@@ -78,46 +80,69 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="222dp"
+        android:layout_height="63dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="112dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="tag:value" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="327dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/taglabel"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tagInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="enter value" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="187dp"
-        android:layout_height="196dp"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="139dp"
+        android:layout_width="215dp"
+        android:layout_height="218dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="125dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.254"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slideshow"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="123dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/addTag"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/personRadio"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:text="Person" />
+
+        <RadioButton
+            android:id="@+id/locationRadio"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:text="Location" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tags"
+        android:layout_width="267dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="18dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/taglabel"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

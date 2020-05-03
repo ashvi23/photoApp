@@ -7,27 +7,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileDescriptor;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 
 import model.Album;
@@ -221,7 +214,7 @@ public class album_activity extends AppCompatActivity {
             return;
         }*/
     }
-    public void displayPhoto(View view){
+    public void movePhoto(View view){
         if(selectedPhoto<0){
             Toast toast = Toast.makeText(getApplicationContext(),"No photo selected",Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -229,8 +222,23 @@ public class album_activity extends AppCompatActivity {
             return;
         }
         else{
-            Intent intent = new Intent(this, photo_display.class);
+            moveAlert(view);
+            boolean foundAlbum=false;
+        }
+    }
+    public void displayPhoto(View view){
+        System.out.println("HELLO from display button");
+        if(selectedPhoto<0){
+            Toast toast = Toast.makeText(getApplicationContext(),"No photo selected",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        else{
+            System.out.println("HELLO from display button else statement");
+            Intent intent = new Intent(this, photo_activity.class);
             intent.putExtra("selectedPhoto", selectedPhoto);
+            intent.putExtra("selectedAlbum", selectedAlbum);
             startActivity(intent);
         }
     }
@@ -254,5 +262,85 @@ public class album_activity extends AppCompatActivity {
             }
         }
         return result;
+    }
+    public void moveAlert(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+
+        input.setHint("album name");
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        final int checkedItemPosition = selectedPhoto;
+        final Photo checkedPhoto = lAdapter.getItem(checkedItemPosition);
+        builder.setMessage("Where do you want to move  \"" +checkedPhoto.getCaption()+ "\"?");
+        builder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        boolean foundAlbum;
+                        String newAlbumName = input.getText().toString();
+                        for (int i = 0; i < allAlbums.size(); i++) {
+                            Album newAlbum = allAlbums.get(i);
+                            if (newAlbumName.equals(allAlbums.get(i).getAlbumName()) && (!newAlbumName.equals(currAlbum.getAlbumName()))) {
+                                foundAlbum = true;
+                                if (doesPhotoExist(currAlbum.getPhotos().get(selectedPhoto).getCaption(), newAlbum) == true) {
+                                    Toast toast = Toast.makeText(getApplicationContext(),"Image already exists in requested album.",Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    return;
+
+                                }
+                                //the album name is valid and the photo does no currently exist in it
+                                newAlbum.addPhoto(currAlbum.getPhotos().get(selectedPhoto));
+                                currAlbum.deletePhoto(currAlbum.getPhotos().get(selectedPhoto));
+                                lAdapter.remove(checkedPhoto);
+                                currAlbum.setNumPhotos(-1);
+                                newAlbum.setNumPhotos(1);
+                                try {
+                                    serial.writeAlbum(currAlbum);
+                                    serial.writeAlbums(allAlbums);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                lView.setItemChecked(checkedItemPosition, true);
+                                Toast toast = Toast.makeText(getApplicationContext(),"Image move to requested album.",Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                return;
+                            } else {
+                                if (newAlbumName.equals(allAlbums.get(i).getAlbumName()) && (newAlbumName.equals(currAlbum.getAlbumName()))) {
+                                    Toast toast = Toast.makeText(getApplicationContext(),"Image already exists in requested album.",Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    return;
+                                }
+                            }
+
+                        }
+                        Toast toast = Toast.makeText(getApplicationContext(),"Album not found.",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        return;
+
+                    }});
+
+        builder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.show();
+    }
+    public boolean doesPhotoExist(String currPath, Album newAlbum) {
+        for(int i =0;i<newAlbum.getPhotos().size();i++) {
+            if(currPath.equalsIgnoreCase(newAlbum.getPhotos().get(i).getCaption())) {
+                return true;
+            }
+        }
+        return false;
     }
     }

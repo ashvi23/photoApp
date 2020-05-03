@@ -32,7 +32,20 @@ public class Photo implements Serializable{
         this.row=0;
         this.col=0;
     }
+    public String tagsToString(){
+        if(photoTags.size() == 0){
+            return "No tags added yet";
+        }
+        String tagString = "";
+        for(int i =0; i< photoTags.size(); i++){
+            tagString = tagString + photoTags.get(i).toString();
+            if(i < photoTags.size()-1) {
+                tagString = tagString +" , ";
+            }
+        }
 
+        return tagString;
+    }
     /**
      * get photo caption
      * @return photoTitle
@@ -96,7 +109,6 @@ public class Photo implements Serializable{
      */
     public ArrayList<String> getTagtype(String type) {
         ArrayList<String> typeTags = new ArrayList<String>();
-
         if(this.photoTags!=null) {
             for(int i=0; i<this.photoTags.size(); i++) {
                 if(type.equals(this.photoTags.get(i).getTagtype())) {
