@@ -54,39 +54,7 @@ public class Album implements Serializable{
     public ArrayList<Photo> getPhotos() {
         return this.photos;
     }
-    /**
-     * get start date
-     * @return
-     */
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    /**
-     * set start date
-     * @throws ParseException
-     */
-    public void setStartDate() throws ParseException{
-        startDate = findStartDate();
-    }
-    /**
-     * get end date
-     * @return
-     */
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    /**
-     * set end date
-     * @throws ParseException
-     */
-    public void setEndDate() throws ParseException{
-        endDate = findEndDate();
-    }
-    /**
-     * returns range of date of photos
-     * @return
-     * @throws ParseException
-     */
+
     public String getDateRange() throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         //Date start=sdf.parse(sdf.format(this.startDate));
@@ -107,46 +75,7 @@ public class Album implements Serializable{
         }
         return dateRange;
     }
-    /**
-     * find the earliest photo
-     * @return
-     * @throws ParseException
-     */
-    public LocalDate findStartDate() throws ParseException{
 
-        if(!this.photos.isEmpty()) {
-            LocalDate tempStartDate=this.photos.get(0).getDate();
-            for(int i=0; i< this.photos.size(); i++) {
-                if(this.photos.get(i).getDate().isBefore(tempStartDate)) {
-                    //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                    //tempStartDate=sdf.parse(sdf.format(this.photos.get(i).getDate()));
-                    tempStartDate=this.photos.get(i).getDate();
-                }
-            }
-            return tempStartDate;
-        }
-        return null;
-    }
-    /**
-     * finds the latest photo
-     * @return
-     * @throws ParseException
-     */
-    public LocalDate findEndDate() throws ParseException{
-
-        if(!this.photos.isEmpty()) {
-            LocalDate tempEndDate=this.photos.get(0).getDate();
-            for(int i=0; i< this.photos.size(); i++) {
-                if(this.photos.get(i).getDate().isAfter(tempEndDate)) {
-                    //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                    //tempEndDate=sdf.parse(sdf.format(this.photos.get(i).getDate()));
-                    tempEndDate=this.photos.get(i).getDate();
-                }
-            }
-            return tempEndDate;
-        }
-        return null;
-    }
     /**
      * num photo in album
      * @return
@@ -179,7 +108,7 @@ public class Album implements Serializable{
     public int addPhoto(Photo p) {
         if(p!=null) {
             for(int i=0; i<this.photos.size();i++) {
-                if(p.getPath().equals(this.photos.get(i).getPath())) {
+                if(p.getCaption().equals(this.photos.get(i).getCaption())) {
                     System.out.println("add returned false");
                     return -1;
                 }
@@ -188,6 +117,10 @@ public class Album implements Serializable{
         this.photos.add(p);
         return this.photos.indexOf(p);
     }
+    @Override
+    public String toString(){
+        return this.getAlbumName();
+    }
     /**
      * deletes photo from album
      * @param p
@@ -195,7 +128,7 @@ public class Album implements Serializable{
     public void deletePhoto(Photo p) {
         if(p!=null) {
             for(int i=0; i<this.photos.size();i++) {
-                if(p.getPath().equals(this.photos.get(i).getPath())) {
+                if(p.getCaption().equals(this.photos.get(i).getCaption())) {
                     this.photos.remove(i);
                 }
             }

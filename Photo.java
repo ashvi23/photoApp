@@ -1,24 +1,20 @@
 package model;
 
+import android.graphics.Bitmap;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
+import model.SerializableBitmap;
+import android.graphics.Bitmap;
 
 public class Photo implements Serializable{
 
     private static final long serialVersionUID = 3L;
+    private SerializableBitmap bitmap;
     private String photoCaption;
-    private String filePath;
-    private LocalDate photoDate;
     private String photoDateString;
     private List<Tag> photoTags = new ArrayList<Tag>();
     private int row;
@@ -26,29 +22,15 @@ public class Photo implements Serializable{
     /**
      * constructor
      * @param caption
-     * @param path
+     *
      */
-    public Photo(String caption, String path) {
+    public Photo(String caption, Bitmap bitmap) {
         this.photoCaption = caption;
-        this.filePath = path;
+        this.bitmap = new SerializableBitmap(bitmap);
+        //this.filePath = path;
         this.photoTags = new ArrayList<Tag>();
         this.row=0;
         this.col=0;
-    }
-
-    /**
-     * get photo path
-     * @return filePath path to the photo
-     */
-    public String getPath() {
-        return this.filePath;
-    }
-    /**
-     * set photo path
-     * @param path
-     */
-    public void setPath(String path) {
-        this.filePath = path;
     }
 
     /**
@@ -153,27 +135,7 @@ public class Photo implements Serializable{
         this.photoTags.remove(i);
     }
 
-    /**
-     * get photo date
-     * @return photoDate
-     */
-    public LocalDate getDate() {
-        return this.photoDate;
+    public Bitmap getBitmap() {
+        return bitmap.getBitmap();
     }
-    /**
-     * set photo title
-     * @throws ParseException
-     */
-    public void setDate() throws ParseException {
-        File file = new File(filePath);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        long millis=file.lastModified();
-      //  LocalDate currDate= LocalDate.ofInstant(Instant.ofEpochMilli(millis), TimeZone.getDefault().toZoneId());;
-      //  this.photoDate=currDate;
-        LocalDate d= LocalDate.now();
-        this.photoDate = d;
-        photoDateString = sdf.format(file.lastModified());
-
-    }
-
 }
